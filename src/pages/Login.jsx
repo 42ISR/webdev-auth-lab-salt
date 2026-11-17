@@ -21,7 +21,7 @@ const Login = () => {
 
         try {
             const data = await api.loginUser(user)
-            setUser(data.data)
+            setSession(data)
             navigate("/")
         } catch (error) {
             console.error(error)
@@ -31,11 +31,11 @@ const Login = () => {
 
 
     return (
-        <div classNameNameName="container">
-            <div classNameName="auth-container">
-                <div classNameNameName="auth-error">Ошибка</div>
-                <div classNameName="auth-header">
-                    <div classNameName="auth-icon">🔐</div>
+        <div className="container">
+            <div className="auth-container">
+                <div className="auth-error">Ошибка</div>
+                <div className="auth-header">
+                    <div className="auth-icon">🔐</div>
                     <h1 className="auth-title">Вход</h1>
                     <p className="auth-subtitle">Войдите в свой аккаунт</p>
                 </div>
@@ -44,7 +44,7 @@ const Login = () => {
                     Неверное имя пользователя или пароль
                 </div>
 
-                <form id="login-form" onSumbit = {handleSubmit}>
+                <form id="login-form" onSubmit = {handleSubmit}>
                     <div className="form-group">
                         <label className="form-label">Имя пользователя</label>
                         <Input

@@ -43,7 +43,7 @@ const Register = () => {
                     <p className="auth-subtitle">Создайте новый аккаунт</p>
                 </div>
                 {error && (
-                <div classNameName="auth-error">Ошибка</div>
+                <div classNameName="auth-error">{error}</div>
                 )}
                 <form id="register-form" onSubmit= {handleSubmit}>
                     <div className="form-group">

@@ -25,8 +25,8 @@ const getItems = async () => {
 }
 
 const getStats = async () => {
-    const res = apiInstance.get("/stats")
-    return res
+    const res = await apiInstance.get("/stats")
+    return res.data
 }
 
 const getItemBids = async (id) => {
