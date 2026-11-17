@@ -5,7 +5,7 @@ export const useUserStore = create()(
     persist(
         (set) => ({
             session: undefined,
-            setsession: (session) => {
+            setSession: (session) => {
                 set({ session })
             },
             clearSession: () => {

@@ -13,8 +13,7 @@ apiInstance.interceptors.request.use((config) => {
     const { session } = useUserStore.getState()
 
     if (session?.token) {
-        config.headers.Authorization = `Bearer $
-        {session.token}`
+        config.headers.Authorization = `Bearer ${session.token}`
     }
 
     return config
@@ -57,13 +56,13 @@ const createBid = async ({id, amount}) => {
 }
 
 const registerUser = async (user) => {
-    const res = apiInstance.post("/auth/register", user)
-    return res
+    const res = await apiInstance.post("/auth/register", user)
+    return res.data
 }
 
 const loginUser = async (user) => {
-    const res = apiInstance.post("/auth/login", user)
-    return res
+    const res = await apiInstance.post("/auth/login", user)
+    return res.data
 }
 
 export const api = {
