@@ -51,7 +51,7 @@ const deleteItems = async (id) => {
 }
 
 const createBid = async ({id, amount}) => {
-    const res = await apiInstance.post(`/items/${id}/bids`, amount)
+    const res = await apiInstance.post(`/items/${id}/bids`, { amount })
     return res.data
 }
 

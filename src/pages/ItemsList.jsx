@@ -19,6 +19,7 @@ const ItemsList = () => {
                 console.error(error)
             }
         }
+        loadStats()
     }, [])
     return (
         <div className="container">

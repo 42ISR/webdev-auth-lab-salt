@@ -46,7 +46,7 @@ const Register = () => {
                     <p className="auth-subtitle">Создайте новый аккаунт</p>
                 </div>
                 {error && (
-                <div className=" alert auth-error active">{error}</div>
+                <div className=" alert alert-error active">{error}</div>
                 )}
                 <form id="register-form" onSubmit= {handleSubmit}>
                     <div className="form-group">

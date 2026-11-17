@@ -43,7 +43,7 @@ const CreateItem = () => {
             <div className="form-container">
 
                 {error &&(
-                    <div className='alert alter-error active'>
+                    <div className='alert alert-error active'>
                         {error}
                     </div>
                 )}

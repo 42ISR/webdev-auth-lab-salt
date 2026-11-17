@@ -33,7 +33,6 @@ const Login = () => {
     return (
         <div className="container">
             <div className="auth-container">
-                <div className="alter auth-error">{error}</div>
                 <div className="auth-header">
                     <div className="auth-icon">🔐</div>
                     <h1 className="auth-title">Вход</h1>

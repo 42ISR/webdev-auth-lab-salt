@@ -1,8 +1,40 @@
 import { Link } from 'react-router-dom'
 import Input from '../components/Input'
 import Button from '../components/Button'
+import { useState } from 'react'
+import { useItemStore } from '../store/useItemStore'
+import { useParams } from 'react-router-dom'
+import { api } from '../api/api'
 
 const ItemDetail = () => {
+
+    const { id } = useParams()
+    const items = useItemStore((state) => state.items)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
+    const getItems = useItemStore((state) => state.getItems)
+
+    useEffect(() => {
+        getItems()
+    }, [id])
+
+    const handleBid = async (e) => {
+    e.preventDefault()
+    setError('')
+
+    const form = e.target
+    const amount = Number(form.bidInput.value)
+
+    try {
+        await api.createBid({ id, amount })
+        form.reset()
+        await getItems()
+    } catch (err) {
+        setError(api.getErrotMessange(err))
+    }
+}
+
+    if (!item) return <div className="container">Загрузка...</div>
 
     return (
         <div className="container">
@@ -11,44 +43,47 @@ const ItemDetail = () => {
             <div class="item-detail">
                 <div class="item-header">
                     <div>
-                        <img src="https:/..." class="item-image-large" />
+                        <img src={item.imageUrl} class="item-image-large" />
                     </div>
 
                     <div class="item-info">
                         <span class="item-status">Активное</span>
 
-                        <h1 class="item-title-large">Название</h1>
+                        <h1 class="item-title-large">{item.title}</h1>
 
                         <div class="item-seller-info">
                             <div class="seller-avatar">Первые 2 символа с юзернейма</div>
                             <div class="seller-details">
-                                <div class="seller-name">
-Юзернейм
+                                <div class="seller-name">{item.username}
                                 </div>
-                                <div class="seller-date">
-Когда создан
+                                <div class="seller-date">{new Date(item.createdAt).toLocaleString("ru-RU")}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="item-description-full">
-Описание
+                        <div class="item-description-full">{item.discription}
                         </div>
 
                         <div class="price-section">
                             <div class="starting-price">Начальная цена:</div>
-                            <div class="current-price">Цена</div>
+                            <div class="current-price">{item.price}</div>
                             <div class="highest-bid">
-                                Текущая ставка: Ставка
+                                Текущая ставка: {item.highestBid ?? "Ставок нет"}
                             </div>
 
-                            <form class="bid-form">
+                            {error && (
+                                <div className='alert alert-error active'>
+                                    {error}
+                                </div>
+                            )}
+
+                            <form class="bid-form" onSubmit={handleBid}>
                                 <Input
                                     type="number"
                                     name="bidInput"
                                     class="bid-input"
                                     placeholder="Введите вашу ставку (мин. стоимость + 1 рубль ₽)"
-                                    min={0}
+                                    min={item.highestBid ?? item.price}
                                     step="100"
                                 />
                                 <Button type="submit" class="btn-bid">
