@@ -31,12 +31,12 @@ const getStats = async () => {
 
 const getItemBids = async (id) => {
     const res = await apiInstance.get(`/items/${id}/bids`)
-    return res
+    return res.data
 }
 
 const getMyBids = async () => {
     const res = await apiInstance.get("/bids/my")
-    return res
+    return res.data
 }
 
 
@@ -65,7 +65,7 @@ const loginUser = async (user) => {
     return res.data
 }
 
-const getErrorMessage = async (error) => {
+const getErrorMessage = (error) => {
     return error.response?.data?.error || "Ошибка создания товара"
 }
 

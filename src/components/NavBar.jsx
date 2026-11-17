@@ -23,7 +23,7 @@ const NavBar = () => {
                             </li>
 
                             <li>
-                                <link to={'/bids'}>Мои ставки</link>
+                                <Link to={'/bids'}>Мои ставки</Link>
                             </li>
 
                             <li>

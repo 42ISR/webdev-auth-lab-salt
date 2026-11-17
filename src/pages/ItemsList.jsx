@@ -11,9 +11,14 @@ const ItemsList = () => {
     useEffect(() => {
         getItems()
 
-        api.getStats()
-        .then((data) => setStats(data))
-        .catch((error) => console.error(error))
+        const loadStats = async () => {
+            try {
+                const data = await api.getStats()
+                setStats(data)
+            } catch (error) {
+                console.error(error)
+            }
+        }
     }, [])
     return (
         <div className="container">

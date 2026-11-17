@@ -33,7 +33,7 @@ const Login = () => {
     return (
         <div className="container">
             <div className="auth-container">
-                <div className="auth-error">Ошибка</div>
+                <div className="alter auth-error">{error}</div>
                 <div className="auth-header">
                     <div className="auth-icon">🔐</div>
                     <h1 className="auth-title">Вход</h1>
@@ -41,7 +41,7 @@ const Login = () => {
                 </div>
 
                 {error && (
-                    <div className="alert alert-error">{error}
+                    <div className="alert alert-error active">{error}
                     </div>
                 )}
 

@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import ItemsList from "../pages/ItemsList"
 
 const ItemCard = ({item}) => {
     return (
@@ -13,8 +12,8 @@ const ItemCard = ({item}) => {
                     <div>
                         <div className="item-price">{item.price} ₽</div>
                         <div className="bid-info">
-                            {item.highestBit ?? "Ставко нет"}
-                            <span className="bid-count">{ItemsList.bidCount}</span>
+                            {item.highestBid ?? "Ставко нет"}
+                            <span className="bid-count">{item.bidCount}</span>
                         </div>
                     </div>
                     <div className="item-meta">
