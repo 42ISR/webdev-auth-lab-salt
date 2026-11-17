@@ -22,19 +22,19 @@ const ItemsList = () => {
             </div>
             <div className="stats">
                 <div className="stat-item">
-                    <span className="stat-value">{stats?.total_items ?? 0}</span>
+                    <span className="stat-value">{stats?.totalItems ?? 0}</span>
                     <span className="stat-label">Товаров</span>
                 </div>
                 <div className="stat-item">
-                    <span className="stat-value">{stats?.total_bids ?? 0}</span>
+                    <span className="stat-value">{stats?.totalBids ?? 0}</span>
                     <span className="stat-label">Ставок</span>
                 </div>
                 <div className="stat-item">
-                    <span className="stat-value">{stats?.active_items ?? 0}</span>
+                    <span className="stat-value">{stats?.activeItems ?? 0}</span>
                     <span className="stat-label">Активных</span>
                 </div>
                 <div className="stat-item">
-                    <span className="stat-value">{stats?.average_price ?? 0}₽</span>
+                    <span className="stat-value">{stats?.averageItemPrice ?? 0}₽</span>
                     <span className="stat-label">Средняя цена</span>
                 </div>
             </div>

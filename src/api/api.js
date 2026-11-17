@@ -30,28 +30,28 @@ const getStats = async () => {
 }
 
 const getItemBids = async (id) => {
-    const res = apiInstance.get(`/items/${id}/bids`)
+    const res = await apiInstance.get(`/items/${id}/bids`)
     return res
 }
 
 const getMyBids = async () => {
-    const res = apiInstance.get("/bids/my")
+    const res = await apiInstance.get("/bids/my")
     return res
 }
 
 
 const sendItems = async (item) => {
-    const res = apiInstance.post("/items", item)
+    const res = await apiInstance.post("/items", item)
     return res.data
 }
 
 const deleteItems = async (id) => {
-    const res = apiInstance.delete(`/items/${id}`)
+    const res = await apiInstance.delete(`/items/${id}`)
     return res.data
 }
 
 const createBid = async ({id, amount}) => {
-    const res = apiInstance.post(`/items/${id}/bids`, amount)
+    const res = await apiInstance.post(`/items/${id}/bids`, amount)
     return res.data
 }
 
@@ -65,6 +65,10 @@ const loginUser = async (user) => {
     return res.data
 }
 
+const getErrorMessage = async (error) => {
+    return error.response?.data?.error || "Ошибка создания товара"
+}
+
 export const api = {
-    registerUser, loginUser, getItems, getStats, sendItems, deleteItems, createBid, getItemBids, getMyBids
+    registerUser, loginUser, getItems, getStats, sendItems, deleteItems, createBid, getItemBids, getMyBids, getErrorMessage
 }

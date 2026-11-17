@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom"
 import { useUserStore } from "../store/useUserStore"
 
 const Register = () => {
-    const nivugate = useNavigate()
+    const navigate = useNavigate()
     const { setSession } = useUserStore()
     const [error, setError] = useState("")
 
@@ -17,8 +17,11 @@ const Register = () => {
 
         const user = {
             username: e.target.username.value,
-            email: e.target.email.value,
             password: e.target.password.value,
+        }
+
+        if (e.target.email.value){
+            user.email = e.target.email.value
         }
 
         if (e.target.password.value !== e.target.password2.value)
@@ -26,7 +29,7 @@ const Register = () => {
 
         try {
             const data = await api.registerUser(user)
-            setUser(data.data)
+            setSession(data)
             navigate("/")
         } catch (error) {
             console.error(error)
@@ -35,7 +38,7 @@ const Register = () => {
     }
 
     return (
-        <div classNameName="container">
+        <div className="container">
             <div className="auth-container">
                 <div className="auth-header">
                     <div className="auth-icon">👤</div>
@@ -43,7 +46,7 @@ const Register = () => {
                     <p className="auth-subtitle">Создайте новый аккаунт</p>
                 </div>
                 {error && (
-                <div classNameName="auth-error">{error}</div>
+                <div className="auth-error">{error}</div>
                 )}
                 <form id="register-form" onSubmit= {handleSubmit}>
                     <div className="form-group">

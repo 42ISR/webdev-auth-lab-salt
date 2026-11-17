@@ -40,9 +40,10 @@ const Login = () => {
                     <p className="auth-subtitle">Войдите в свой аккаунт</p>
                 </div>
 
-                <div className="alert alert-error" id="error-alert">
-                    Неверное имя пользователя или пароль
-                </div>
+                {error && (
+                    <div className="alert alert-error">{error}
+                    </div>
+                )}
 
                 <form id="login-form" onSubmit = {handleSubmit}>
                     <div className="form-group">

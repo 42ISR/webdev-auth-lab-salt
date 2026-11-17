@@ -8,9 +8,12 @@ import { useItemStore } from '../store/useItemStore'
 
 const CreateItem = () => {
     const navigate = useNavigate()
+    const [error, setError] = useState("")
+    const getItems = useItemStore((state) => state.getItems)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setError("")
 
         const item = {
             title: e.target.title.value,
@@ -24,9 +27,11 @@ const CreateItem = () => {
 
         try {
             await api.sendItems(item)
+            await getItems()
             navigate("/")
         } catch (error) {
             console.error(error)
+            setError(getErrorMessage(error))
         }
     }
     return (
@@ -36,6 +41,13 @@ const CreateItem = () => {
             </div>
 
             <div class="form-container">
+
+                {error &&(
+                    <div className='alter alter-error active'>
+                        {error}
+                    </div>
+                )}
+
                 <form id="create-item-form" onSubmit={handleSubmit}>
                     <div class="form-group">
                         <label class="form-label">
