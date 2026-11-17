@@ -1,7 +1,34 @@
 import { Link } from 'react-router-dom'
 import Input from './Input'
+import { api } from '../api/api'
+import { useNavigate } from "react-router-dom"
+import { useState } from 'react'
+import { useItemStore } from '../store/useItemStore'
+
 
 const CreateItem = () => {
+    const navigate = useNavigate()
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        const item = {
+            title: e.target.title.value,
+            description: e.target.description.value,
+            price: Number(e.target.price.value),
+        }
+
+        if (e.target.imageUrl.value) {
+            item.imageUrl = e.target.imageUrl.value
+        }
+
+        try {
+            await api.sendItems(item)
+            navigate("/")
+        } catch (error) {
+            console.error(error)
+        }
+    }
     return (
         <div className="container">
             <div class="page-header">
@@ -9,7 +36,7 @@ const CreateItem = () => {
             </div>
 
             <div class="form-container">
-                <form id="create-item-form">
+                <form id="create-item-form" onSubmit={handleSubmit}>
                     <div class="form-group">
                         <label class="form-label">
                             Название товара <span class="required">*</span>
@@ -84,7 +111,7 @@ const CreateItem = () => {
                     </div>
 
                     <div class="form-actions">
-                        <Link href="/" class="btn-cancel">
+                        <Link to="/" class="btn-cancel">
                             Отмена
                         </Link>
                         <button type="submit" class="btn-submit">

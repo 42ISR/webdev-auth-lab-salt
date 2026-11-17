@@ -20,8 +20,8 @@ apiInstance.interceptors.request.use((config) => {
 })
 
 const getItems = async () => {
-    const res = apiInstance.get("/items")
-    return res
+    const res = await apiInstance.get("/items")
+    return res.data
 }
 
 const getStats = async () => {
