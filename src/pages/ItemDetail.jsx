@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import Input from '../components/Input'
 import Button from '../components/Button'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useItemStore } from '../store/useItemStore'
 import { useParams } from 'react-router-dom'
 import { api } from '../api/api'
@@ -13,9 +13,23 @@ const ItemDetail = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
     const getItems = useItemStore((state) => state.getItems)
+    const [bids, setBids] = useState([])
 
     useEffect(() => {
         getItems()
+    }, [id])
+
+    const loadBids = async () => {
+        try {
+            const data = await api.getItemBids(id)
+            setBids(data)
+        } catch (error) {
+            console.error(err)
+        }
+    }
+
+    useEffect(() =>{
+        loadBids()
     }, [id])
 
     const handleBid = async (e) => {
@@ -30,7 +44,7 @@ const ItemDetail = () => {
         form.reset()
         await getItems()
     } catch (err) {
-        setError(api.getErrotMessange(err))
+        setError(api.getErrorMessange(err))
     }
 }
 
@@ -61,7 +75,7 @@ const ItemDetail = () => {
                             </div>
                         </div>
 
-                        <div class="item-description-full">{item.discription}
+                        <div class="item-description-full">{item.description}
                         </div>
 
                         <div class="price-section">

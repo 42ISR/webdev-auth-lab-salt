@@ -19,6 +19,11 @@ apiInstance.interceptors.request.use((config) => {
     return config
 })
 
+const getItem = async () => {
+    const res = await apiInstance.get(`/items/${id}`)
+    return res.data
+}
+
 const getItems = async () => {
     const res = await apiInstance.get("/items")
     return res.data
@@ -70,5 +75,5 @@ const getErrorMessage = (error) => {
 }
 
 export const api = {
-    registerUser, loginUser, getItems, getStats, sendItems, deleteItems, createBid, getItemBids, getMyBids, getErrorMessage
+    registerUser, loginUser, getItems, getStats, sendItems, deleteItems, createBid, getItemBids, getMyBids, getErrorMessage, getItem
 }
