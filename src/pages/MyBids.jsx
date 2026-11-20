@@ -19,7 +19,7 @@ const MyBids = () => {
     }, [])
 
     const winningCount = bids.filter((bid) => bid.isWinning).length
-    const totalAmount = bids.reduce((sum, bid) => bid.amount, 0)
+    const totalAmount = bids.reduce((sum, bid) => sum + bid.amount, 0)
 
     return (
         <div className="container">
@@ -35,7 +35,7 @@ const MyBids = () => {
                     <span className="summary-label">Всего ставок</span>
                 </div>
                 <div className="summary-card winning">
-                    <span className="summary-value">{winningCounter}</span>
+                    <span className="summary-value">{winningCount}</span>
                     <span className="summary-label">Лидирующих ставок</span>
                 </div>
                 <div className="summary-card">
@@ -43,9 +43,9 @@ const MyBids = () => {
                     <span className="summary-label">Общая сумма</span>
                 </div>
             </div>
-
-            {bids.map((bid) => (
+            
             <div className="bids-list">
+                {bids.map((bid) => (
                 <div className="bid-item" key={bid.id}>
                     <div className="bid-item-content">
                         <div className="bid-item-header">
@@ -55,15 +55,15 @@ const MyBids = () => {
                             <span className={bid.isWinning ? "winning-badge" : "outbid-badge"}>{bid.isWinning ? "🏆 Лидирую" : "Перебита"}</span>
                         </div>
                         <div className="bid-item-meta">
-                            {new Date(bid.createAd).toLocaleString("ru_RU")}
+                            {new Date(bid.createAt).toLocaleString("ru_RU")}
                         </div>
                     </div>
                     <div className="bid-item-amount">
                         <span className="bid-amount">{bid.amount} ₽</span>
                     </div>
                 </div>
+                ))}
             </div>
-            ))}
         </div>
         
 
