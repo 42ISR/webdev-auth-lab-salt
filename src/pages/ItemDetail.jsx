@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react'
 import { useItemStore } from '../store/useItemStore'
 import { useParams } from 'react-router-dom'
 import { api } from '../api/api'
+import { useUserStore } from '../store/useUserStore'
+import { useNavigate } from 'react-router-dom'
 
 const ItemDetail = () => {
 
@@ -13,7 +15,10 @@ const ItemDetail = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
     const getItems = useItemStore((state) => state.getItems)
-    const [bids, setBids] = useState([])
+    const item = items.find((item) => item.id === Number(id))
+    const session = useUserStore((state) => state.session)
+    const isOwner = session?.user?.id === item?.userId
+    const navigate = useNavigate()
 
     useEffect(() => {
         getItems()
@@ -24,7 +29,7 @@ const ItemDetail = () => {
             const data = await api.getItemBids(id)
             setBids(data)
         } catch (error) {
-            console.error(err)
+            console.error(error)
         }
     }
 
@@ -43,10 +48,21 @@ const ItemDetail = () => {
         await api.createBid({ id, amount })
         form.reset()
         await getItems()
+        await loadBids()
     } catch (err) {
-        setError(api.getErrorMessange(err))
+        setError(api.getErrorMessage(err))
     }
 }
+
+    const handleDelete = async () => {
+        try {
+            await api.deleteItems(id)
+            await getItems()
+            navigate("/")
+        } catch (error) {
+            setError(api.getErrorMessage(err))
+        }
+    }
 
     if (!item) return <div className="container">Загрузка...</div>
 
@@ -77,6 +93,12 @@ const ItemDetail = () => {
 
                         <div class="item-description-full">{item.description}
                         </div>
+
+                        {isOwner && (
+                            <Button type="button" onClick={handleDelete}>
+                                Удалить товар
+                            </Button>
+                        )}
 
                         <div class="price-section">
                             <div class="starting-price">Начальная цена:</div>
@@ -111,21 +133,26 @@ const ItemDetail = () => {
                 <div class="bids-section">
                     <div class="bids-header">
                         <h2 class="bids-title">История ставок</h2>
-                        <span class="bids-count">5</span>
+                        <span class="bids-count">{bids.length}</span>
                     </div>
-
-                    <div class="bids-list">
-                        <div class="bid-item highest-bid-item">
+                    
+                    {bids.map((bid, index) => (
+                    // <div class="bids-list">
+                    //     <div class="bid-item highest-bid-item">
+                        <div className={`bid-item ${index === 0 ? "highest-bid-item" : ""}`} key={bid.id}>
                             <div class="bid-user">
-                                <div class="bid-avatar">BB</div>
+                                <div class="bid-avatar">{bid.username.slice(0, 2).toUpperCase()}</div>
                                 <div class="bid-details">
-                                    <span class="bid-username">buyer_best</span>
-                                    <span class="bid-time">2 часа назад</span>
+                                    <span class="bid-username">{bid.username}</span>
+                                    <span class="bid-time">{new Date(bid.createdAt).toLocaleString("ru-RU")}</span>
                                 </div>
-                                <span class="highest-badge">🏆 Лидирует</span>
+                                {index ===0 && (
+                                    <span class="highest-badge">🏆 Лидирует</span>
+                                    )}
                             </div>
-                            <div class="bid-amount">70 000 ₽</div>
+                            <div class="bid-amount">{bid.amount} ₽</div>
                         </div>
+                        ))}
 
                         <div class="bid-item">
                             <div class="bid-user">
@@ -173,7 +200,7 @@ const ItemDetail = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        // </div>
     )
 }
 

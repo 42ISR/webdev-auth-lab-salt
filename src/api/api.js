@@ -19,7 +19,7 @@ apiInstance.interceptors.request.use((config) => {
     return config
 })
 
-const getItem = async () => {
+const getItem = async (id) => {
     const res = await apiInstance.get(`/items/${id}`)
     return res.data
 }
